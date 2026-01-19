@@ -1,5 +1,9 @@
 from typing import List
-from pydantic_settings import BaseSettings
+from pathlib import Path
+from pydantic import ConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BASE_DIR = Path(__file__).resolve().parent
 
 class Settings(BaseSettings):
     """Application settings."""
@@ -19,10 +23,15 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: List[str] = ["*"]
 
-    class Config:
-        """Pydantic configuration."""
+    # class Config:
+    #     """Pydantic configuration."""
 
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    #     env_file = ".env"
+    #     env_file_encoding = "utf-8"
+  
+    model_config = SettingsConfigDict(
+        env_file="app/.env",
+        env_file_encoding="utf-8",
+    )
 
 settings = Settings()

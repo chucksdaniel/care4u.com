@@ -2,9 +2,9 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 
-from app.api.deps import get_current_user
+from app.core.oauth2 import get_current_user
 from app.schemas.request import RequestCreate, RequestResponse
-from app.domain.services import RequestService
+# from app.domain.services import RequestService
 
 router = APIRouter()
 
