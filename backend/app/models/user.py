@@ -46,7 +46,17 @@ class User(Base):
         back_populates="assigned_care_giver",
         foreign_keys="[SubjectProfile.assigned_care_giver_id]"
     )
-    
+    requests = relationship(
+        "Request",
+        back_populates="owner",
+        cascade="all, delete-orphan"
+    )
+    subject_profiles = relationship(
+        "SubjectProfile",
+        back_populates="created_by",
+        foreign_keys="SubjectProfile.created_by_id",
+        cascade="all, delete-orphan"
+    )
 
 """ Role and UserRole association for many-to-many relationship implementation """
 # class Role(Base):

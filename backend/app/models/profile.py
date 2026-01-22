@@ -85,4 +85,20 @@ class SubjectProfile(Base):
     )
     assigned_care_giver = relationship("User", foreign_keys=[assigned_care_giver_id])
 
-    created_by = relationship("User", backref="subject_profiles", foreign_keys=[created_by_id])
+    created_by = relationship(
+        "User",
+        back_populates="subject_profiles",
+        foreign_keys=[created_by_id]
+    )
+
+    # created_by = relationship(
+    #     "User", 
+    #     backref="subject_profiles", 
+    #     foreign_keys=[created_by_id]
+    # )
+
+    requests = relationship(
+        "Request",
+        back_populates="subject",
+        cascade="all, delete-orphan"
+    )
