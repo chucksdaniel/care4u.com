@@ -1,9 +1,21 @@
 """JWT and RBAC checks."""
+from fastapi import Depends, HTTPException, status
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 import jwt
 
+from app.core.oauth2 import get_current_user
+from app.enum import RoleEnum
+
 from app.core.config import settings
+
+""" Role-based access control (RBAC) and JWT handling functions. """
+def require_role(role: RoleEnum):
+    def wrapper(user=Depends(get_current_user)):
+        if user.role != role:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+        return user
+    return wrapper
 
 
 def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
